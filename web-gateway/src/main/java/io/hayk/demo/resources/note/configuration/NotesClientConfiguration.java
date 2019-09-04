@@ -1,4 +1,4 @@
-package io.hayk.demo.resources.note.client;
+package io.hayk.demo.resources.note.configuration;
 
 import io.rsocket.RSocket;
 import io.rsocket.RSocketFactory;

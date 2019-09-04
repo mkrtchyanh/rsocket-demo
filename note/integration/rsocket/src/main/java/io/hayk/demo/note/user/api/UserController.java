@@ -15,14 +15,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 @Controller
-public class RsocketUserController {
+public class UserController {
 
     private final UserService userService;
 
     private final Executor executor;
 
-    public RsocketUserController(final UserService userService,
-                                 @Qualifier("dbCallBoundExecutor") final Executor executor) {
+    public UserController(final UserService userService,
+                          @Qualifier("dbCallBoundExecutor") final Executor executor) {
         this.userService = userService;
         this.executor = executor;
     }

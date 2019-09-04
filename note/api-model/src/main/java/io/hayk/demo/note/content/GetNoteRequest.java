@@ -1,8 +1,16 @@
 package io.hayk.demo.note.content;
 
-public class UpdateNoteRequest extends SaveNoteRequest{
+public class GetNoteRequest {
 
     private Long noteId;
+
+    public GetNoteRequest() {
+        super();
+    }
+
+    public GetNoteRequest(final Long noteId) {
+        this.noteId = noteId;
+    }
 
     public Long getNoteId() {
         return noteId;
@@ -12,4 +20,3 @@ public class UpdateNoteRequest extends SaveNoteRequest{
         this.noteId = noteId;
     }
 }
-

@@ -15,7 +15,7 @@
         <vavr.version>0.10.2</vavr.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
-        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+        <swagger.version>3.0.0-SNAPSHOT</swagger.version>
     </properties>
 
     <dependencyManagement>
@@ -74,12 +74,17 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox-swagger2.version}</version>
+            <version>${swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-spring-webflux</artifactId>
-            <version>${springfox-swagger2.version}</version>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
         </dependency>
 
         <dependency>
@@ -119,6 +124,11 @@
             <id>spring-milestones</id>
             <name>Spring Milestones</name>
             <url>https://repo.spring.io/milestone</url>
+        </repository>
+        <repository>
+            <id>jcenter-snapshots</id>
+            <name>jcenter</name>
+            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
         </repository>
     </repositories>
     <pluginRepositories>

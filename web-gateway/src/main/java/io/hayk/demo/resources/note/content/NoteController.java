@@ -43,7 +43,7 @@ public class NoteController {
     }
 
     @GetMapping("{id}")
-    public Mono<NoteContentDto> getNoteContentDto(@PathVariable("id") final Long id) {
+    public Mono<NoteContentDto> getNote(@PathVariable("id") final Long id) {
         return notesApiRequester.flatMap(
                 rSocketRequester ->
                         rSocketRequester.route("note:get").data(id)
