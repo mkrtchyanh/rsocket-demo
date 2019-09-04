@@ -7,9 +7,9 @@ import org.junit.runner.RunWith;
 import java.util.UUID;
 
 @RunWith(EasyMockRunner.class)
-public  abstract class AbstractServiceUnitTest extends EasyMockSupport {
+public abstract class AbstractServiceUnitTest extends EasyMockSupport {
 
-    public static String uuid(){
+    public static String uuid() {
         return UUID.randomUUID().toString();
     }
 }

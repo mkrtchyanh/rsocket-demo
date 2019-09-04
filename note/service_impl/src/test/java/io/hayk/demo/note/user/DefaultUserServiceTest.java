@@ -27,6 +27,22 @@ public class DefaultUserServiceTest extends AbstractServiceUnitTest {
     @Mock
     private ExternalAccountService externalAccountService;
 
+    private static BindExternalAccountParam validBindExternalAccountParams() {
+        return BindExternalAccountParam.of(uuid(), uuid(), uuid());
+    }
+
+    private static BindExternalAccountParam withoutEmailBindExternalAccountParams() {
+        return new SimpleBindExternalAccountParams(null, uuid(), uuid());
+    }
+
+    private static BindExternalAccountParam withoutExternalAccountUidBindExternalAccountParams() {
+        return new SimpleBindExternalAccountParams(uuid(), null, uuid());
+    }
+
+    private static BindExternalAccountParam withoutProviderNameBindExternalAccountParams() {
+        return new SimpleBindExternalAccountParams(uuid(), uuid(), null);
+    }
+
     @Before
     public void prepare() {
         userService = new DefaultUserService(userRepository, externalAccountService);
@@ -109,23 +125,6 @@ public class DefaultUserServiceTest extends AbstractServiceUnitTest {
                 .hasFieldOrPropertyWithValue("owner.email", params.email());
         verifyAll();
     }
-
-    private static BindExternalAccountParam validBindExternalAccountParams() {
-        return BindExternalAccountParam.of(uuid(), uuid(), uuid());
-    }
-
-    private static BindExternalAccountParam withoutEmailBindExternalAccountParams() {
-        return new SimpleBindExternalAccountParams(null, uuid(), uuid());
-    }
-
-    private static BindExternalAccountParam withoutExternalAccountUidBindExternalAccountParams() {
-        return new SimpleBindExternalAccountParams(uuid(), null, uuid());
-    }
-
-    private static BindExternalAccountParam withoutProviderNameBindExternalAccountParams() {
-        return new SimpleBindExternalAccountParams(uuid(), uuid(), null);
-    }
-
 
     private static final class SimpleBindExternalAccountParams implements BindExternalAccountParam {
 

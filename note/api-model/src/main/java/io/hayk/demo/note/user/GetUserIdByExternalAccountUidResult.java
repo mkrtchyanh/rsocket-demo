@@ -1,7 +1,6 @@
 package io.hayk.demo.note.user;
 
 import io.hayk.demo.common.ApplicationError;
-import io.hayk.demo.note.content.NoteContentDto;
 
 import java.util.List;
 

@@ -27,6 +27,15 @@ public class NoteController {
         this.executor = executor;
     }
 
+    private static NoteContentDto toNoteContentDto(final NoteContent content) {
+        final NoteContentDto dto = new NoteContentDto();
+        dto.setLastUpdated(content.getLastUpdated());
+        dto.setText(content.getText());
+        dto.setTitle(content.getTitle());
+        dto.setUserId(content.getCreatedBy().getId());
+        return dto;
+    }
+
     @MessageMapping("note:create")
     Mono<GenericNoteResult> create(final CreateNoteRequest request) {
         return Mono.fromCompletionStage(
@@ -104,14 +113,5 @@ public class NoteController {
                                     .collect(Collectors.toList())
                     );
         }
-    }
-
-    private static NoteContentDto toNoteContentDto(final NoteContent content) {
-        final NoteContentDto dto = new NoteContentDto();
-        dto.setLastUpdated(content.getLastUpdated());
-        dto.setText(content.getText());
-        dto.setTitle(content.getTitle());
-        dto.setUserId(content.getCreatedBy().getId());
-        return dto;
     }
 }

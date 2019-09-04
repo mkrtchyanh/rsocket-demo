@@ -54,8 +54,12 @@ public class NoteContentDto {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {return true;}
-        if (o == null || getClass() != o.getClass()) {return false;}
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         final NoteContentDto that = (NoteContentDto) o;
         return new EqualsBuilder()
                 .append(userId, that.userId)

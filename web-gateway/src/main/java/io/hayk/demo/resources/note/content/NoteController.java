@@ -1,10 +1,10 @@
 package io.hayk.demo.resources.note.content;
 
 
+import io.hayk.demo.client.note.NoteApiClient;
 import io.hayk.demo.note.content.*;
 import io.hayk.demo.note.user.GetUserIdByExternalAccountUidRequest;
 import io.hayk.demo.note.user.GetUserIdByExternalAccountUidResult;
-import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
@@ -16,23 +16,10 @@ import java.security.Principal;
 @RequestMapping("/api/note")
 public class NoteController {
 
-    private final Mono<RSocketRequester> notesApiRequester;
+    private final NoteApiClient noteApiClient;
 
-    public NoteController(final Mono<RSocketRequester> notesApiRequester) {
-        this.notesApiRequester = notesApiRequester;
-    }
-
-    @PostMapping("/create")
-    public Mono<GenericNoteResult> create(final Mono<CreateNoteWebRequest> createNoteRequest, final Mono<Principal> principal) {
-        return userId(principal).flatMap(userId ->
-                createNoteRequest
-                        .flatMap(request -> notesApiRequester.flatMap(
-                                rSocketRequester ->
-                                        rSocketRequester.route("note:create")
-                                                .data(createNoteRequest(request, userId))
-                                                .retrieveMono(GenericNoteResult.class))
-
-                        ));
+    public NoteController(final NoteApiClient noteApiClient) {
+        this.noteApiClient = noteApiClient;
     }
 
     private static CreateNoteRequest createNoteRequest(final CreateNoteWebRequest webRequest, final Long userId) {
@@ -41,19 +28,6 @@ public class NoteController {
         request.setTitle(webRequest.getTitle());
         request.setUserId(userId);
         return request;
-    }
-
-    @PutMapping("/update")
-    public Mono<GenericNoteResult> update(final Mono<UpdateNoteWebRequest> updateNoteRequest, final Mono<Principal> principal) {
-        return userId(principal).flatMap(userId ->
-                updateNoteRequest
-                        .flatMap(request -> notesApiRequester.flatMap(
-                                rSocketRequester ->
-                                        rSocketRequester.route("note:update")
-                                                .data(updateNoteRequest(request, userId))
-                                                .retrieveMono(GenericNoteResult.class))
-
-                        ));
     }
 
     private static UpdateNoteRequest updateNoteRequest(final UpdateNoteWebRequest webRequest, final Long userId) {
@@ -65,41 +39,39 @@ public class NoteController {
         return request;
     }
 
+    @PostMapping("/create")
+    public Mono<GenericNoteResult> create(final Mono<CreateNoteWebRequest> createNoteRequest, final Mono<Principal> principal) {
+        return userId(principal).flatMap(userId ->
+                createNoteRequest
+                        .flatMap(request -> noteApiClient.create(createNoteRequest(request, userId))));
+    }
+
+    @PutMapping("/update")
+    public Mono<GenericNoteResult> update(final Mono<UpdateNoteWebRequest> updateNoteRequest, final Mono<Principal> principal) {
+        return userId(principal).flatMap(userId ->
+                updateNoteRequest
+                        .flatMap(request -> noteApiClient.update(updateNoteRequest(request, userId))));
+    }
+
     @GetMapping("{id}")
     public Mono<GenericNoteResult> getNote(@PathVariable("id") final Long id) {
-        return notesApiRequester.flatMap(
-                rSocketRequester ->
-                        rSocketRequester.route("note:get")
-                                .data(new GetNoteRequest(id))
-                                .retrieveMono(GenericNoteResult.class)
-
-        );
+        return noteApiClient.getNote(new GetNoteRequest(id));
     }
 
     @GetMapping("/all")
-    public Mono<GenericNoteResult> getUserNotes(@RequestParam("user_id") final Mono<Principal> principal) {
+    public Mono<GetUserNotesResult> getUserNotes(@RequestParam("user_id") final Mono<Principal> principal) {
         return userId(principal).flatMap(userId ->
-                notesApiRequester.flatMap(
-                        rSocketRequester ->
-                                rSocketRequester.route("note:userNotes")
-                                        .data(new GetUserNotesRequest(userId))
-                                        .retrieveMono(GenericNoteResult.class)
-
-                )
-        );
+                noteApiClient.getUserNotes(new GetUserNotesRequest(userId)));
     }
 
     private Mono<Long> userId(final Mono<Principal> principal) {
-        return notesApiRequester.flatMap(rSocketRequester ->
-                principal.map(OAuth2AuthenticationToken.class::cast)
-                        .map(OAuth2AuthenticationToken::getPrincipal)
-                        .map(OAuth2User::getAttributes)
-                        .map(attributes -> attributes.get("sub"))
-                        .map(String::valueOf)
-                        .flatMap(externalAccountUId ->
-                                rSocketRequester.route("user:id")
-                                        .data(new GetUserIdByExternalAccountUidRequest(externalAccountUId))
-                                        .retrieveMono(GetUserIdByExternalAccountUidResult.class))
-        ).map(GetUserIdByExternalAccountUidResult::getUserId);
+        return principal.map(OAuth2AuthenticationToken.class::cast)
+                .map(OAuth2AuthenticationToken::getPrincipal)
+                .map(OAuth2User::getAttributes)
+                .map(attributes -> attributes.get("sub"))
+                .map(String::valueOf)
+                .flatMap(externalAccountUId ->
+                        noteApiClient.getUserIdByExternalAccountUid(new GetUserIdByExternalAccountUidRequest(externalAccountUId))
+                ).map(GetUserIdByExternalAccountUidResult::getUserId);
     }
 }

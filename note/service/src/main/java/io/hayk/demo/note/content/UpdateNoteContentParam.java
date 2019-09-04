@@ -2,13 +2,7 @@ package io.hayk.demo.note.content;
 
 public interface UpdateNoteContentParam {
 
-    Long noteId();
-
-    String text();
-
-    String title();
-
-    static UpdateNoteContentParam of(final Long noteId,final String title,final String text) {
+    static UpdateNoteContentParam of(final Long noteId, final String title, final String text) {
         return new UpdateNoteContentParam() {
             @Override
             public Long noteId() {
@@ -26,4 +20,10 @@ public interface UpdateNoteContentParam {
             }
         };
     }
+
+    Long noteId();
+
+    String text();
+
+    String title();
 }

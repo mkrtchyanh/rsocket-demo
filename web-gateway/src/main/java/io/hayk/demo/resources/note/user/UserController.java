@@ -1,11 +1,14 @@
 package io.hayk.demo.resources.note.user;
 
+import io.hayk.demo.client.note.NoteApiClient;
 import io.hayk.demo.note.user.BindExternalAccountRequest;
 import io.hayk.demo.note.user.BindExternalAccountResponse;
-import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 import java.security.Principal;
@@ -16,10 +19,10 @@ import java.util.Objects;
 @RequestMapping("/api/user")
 public class UserController {
 
-    private final Mono<RSocketRequester> notesApiRequester;
+    private final NoteApiClient noteApiClient;
 
-    public UserController(final Mono<RSocketRequester> notesApiRequester) {
-        this.notesApiRequester = notesApiRequester;
+    public UserController(final NoteApiClient noteApiClient) {
+        this.noteApiClient = noteApiClient;
     }
 
     @PostMapping("/connect/{provider}")
@@ -35,9 +38,6 @@ public class UserController {
 
     private Mono<BindExternalAccountResponse> bindExternalAccount(final Map<String, Object> attributes,
                                                                   final String provider) {
-        return notesApiRequester.flatMap(rSocketRequester ->
-                rSocketRequester.route("user:bind-external-account")
-                        .data(new BindExternalAccountRequest((String) attributes.get("email"), (String) attributes.get("sub"), provider))
-                        .retrieveMono(BindExternalAccountResponse.class));
+        return noteApiClient.bindExternalAccount(new BindExternalAccountRequest((String) attributes.get("email"), (String) attributes.get("sub"), provider));
     }
 }

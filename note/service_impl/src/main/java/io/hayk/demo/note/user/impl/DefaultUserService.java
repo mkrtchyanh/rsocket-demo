@@ -23,6 +23,13 @@ class DefaultUserService implements UserService {
         this.externalAccountService = externalAccountService;
     }
 
+    private static void assertValidBindExternalAccountParams(final BindExternalAccountParam params) {
+        Assert.notNull(params, "Null was passed as ana rgument for parameter 'params'.");
+        Assert.notNull(params.email(), "Null or empty text was passed as ana rgument for parameter 'params.email'.");
+        Assert.notNull(params.externalAccountUid(), "Nul or empty textl was passed as ana rgument for parameter 'params.externalAccountUid'.");
+        Assert.notNull(params.providerName(), "Null or empty text was passed as ana rgument for parameter 'params.providerName'.");
+    }
+
     @Transactional
     public ExternalAccount bindExternalAccount(final BindExternalAccountParam params) {
         assertValidBindExternalAccountParams(params);
@@ -38,12 +45,5 @@ class DefaultUserService implements UserService {
     public User getUserById(final Long id) {
         Assert.notNull(id, "Null was passed as ana rgument for parameter 'id'.");
         return userRepository.getOne(id);
-    }
-
-    private static void assertValidBindExternalAccountParams(final BindExternalAccountParam params) {
-        Assert.notNull(params, "Null was passed as ana rgument for parameter 'params'.");
-        Assert.notNull(params.email(), "Null or empty text was passed as ana rgument for parameter 'params.email'.");
-        Assert.notNull(params.externalAccountUid(), "Nul or empty textl was passed as ana rgument for parameter 'params.externalAccountUid'.");
-        Assert.notNull(params.providerName(), "Null or empty text was passed as ana rgument for parameter 'params.providerName'.");
     }
 }

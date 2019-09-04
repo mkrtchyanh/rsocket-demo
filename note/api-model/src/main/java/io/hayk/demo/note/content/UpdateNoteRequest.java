@@ -1,6 +1,6 @@
 package io.hayk.demo.note.content;
 
-public class UpdateNoteRequest extends SaveNoteRequest{
+public class UpdateNoteRequest extends SaveNoteRequest {
 
     private Long noteId;
 
