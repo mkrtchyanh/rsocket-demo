@@ -26,4 +26,5 @@ public abstract class AbstractDomainEntity {
     public LocalDateTime getCreated() {
         return created;
     }
+
 }
