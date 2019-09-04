@@ -1,0 +1,25 @@
+spring:
+  main:
+    lazy-initialization: true
+  rsocket:
+    server:
+      port: 7000
+
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/note
+    username: postgres
+    password: postgres
+    hikari.maximum-pool-size: 100
+    hikari.auto-commit: false
+    hikari.minimum-idle: 10
+  jpa:
+    database: postgresql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8081
+
+
