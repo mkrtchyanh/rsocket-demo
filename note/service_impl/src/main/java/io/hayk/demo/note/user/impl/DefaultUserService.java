@@ -1,8 +1,11 @@
-package io.hayk.demo.note.user;
+package io.hayk.demo.note.user.impl;
 
 import io.hayk.demo.note.externalaccount.ExternalAccount;
 import io.hayk.demo.note.externalaccount.ExternalAccountProvider;
 import io.hayk.demo.note.externalaccount.ExternalAccountService;
+import io.hayk.demo.note.user.BindExternalAccountParam;
+import io.hayk.demo.note.user.User;
+import io.hayk.demo.note.user.UserService;
 import io.hayk.demo.note.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +24,7 @@ class DefaultUserService implements UserService {
     }
 
     @Transactional
-    public ExternalAccount bindExternalAccount(final BindExternalAccountParams params) {
+    public ExternalAccount bindExternalAccount(final BindExternalAccountParam params) {
         assertValidBindExternalAccountParams(params);
         final ExternalAccountProvider provider = externalAccountService.lookupExternalAccountProvider(params.providerName())
                 .orElseGet(() -> externalAccountService.registerExternalAccountProvider(params.providerName()));
@@ -30,7 +33,14 @@ class DefaultUserService implements UserService {
         return user.bindExternalAccount(params.externalAccountUid(), provider);
     }
 
-    private static void assertValidBindExternalAccountParams(final BindExternalAccountParams params) {
+    @Override
+    @Transactional(readOnly = true)
+    public User getUserById(final Long id) {
+        Assert.notNull(id, "Null was passed as ana rgument for parameter 'id'.");
+        return userRepository.getOne(id);
+    }
+
+    private static void assertValidBindExternalAccountParams(final BindExternalAccountParam params) {
         Assert.notNull(params, "Null was passed as ana rgument for parameter 'params'.");
         Assert.notNull(params.email(), "Null or empty text was passed as ana rgument for parameter 'params.email'.");
         Assert.notNull(params.externalAccountUid(), "Nul or empty textl was passed as ana rgument for parameter 'params.externalAccountUid'.");

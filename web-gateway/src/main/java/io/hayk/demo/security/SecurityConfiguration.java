@@ -13,6 +13,7 @@ public class SecurityConfiguration {
     @Bean
     SecurityWebFilterChain securityWebFilterChain(final ServerHttpSecurity http) {
         return http
+                .csrf().disable()
                 .authorizeExchange()
                 .pathMatchers("/health")
                 .permitAll()

@@ -1,4 +1,4 @@
-package io.hayk.demo.resources.note.api;
+package io.hayk.demo.resources.note.user;
 
 import io.hayk.demo.note.user.BindExternalAccountRequest;
 import io.hayk.demo.note.user.BindExternalAccountResponse;
@@ -22,8 +22,7 @@ public class UserController {
         this.notesApiRequester = notesApiRequester;
     }
 
-    //@PostMapping("/bind/google")
-    @GetMapping("/connect/{provider}")
+    @PostMapping("/connect/{provider}")
     public Mono<BindExternalAccountResponse> bindGoogleAccount(final Mono<Principal> principal,
                                                                @PathVariable("provider") final String provider) {
         return principal.filter(OAuth2AuthenticationToken.class::isInstance)
@@ -38,7 +37,7 @@ public class UserController {
                                                                   final String provider) {
         return notesApiRequester.flatMap(rSocketRequester ->
                 rSocketRequester.route("user:bind-external-account")
-                        .data(new BindExternalAccountRequest((String) attributes.get("email"), (String) attributes.get("sub") , provider))
+                        .data(new BindExternalAccountRequest((String) attributes.get("email"), (String) attributes.get("sub"), provider))
                         .retrieveMono(BindExternalAccountResponse.class));
     }
 }

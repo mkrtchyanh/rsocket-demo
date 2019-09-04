@@ -24,8 +24,12 @@ public class BindExternalAccountRequest {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {return true;}
-        if (o == null || getClass() != o.getClass()) {return false;}
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         final BindExternalAccountRequest that = (BindExternalAccountRequest) o;
         return new EqualsBuilder()
                 .append(email, that.email)

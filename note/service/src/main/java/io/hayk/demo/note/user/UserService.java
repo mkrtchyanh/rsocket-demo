@@ -4,5 +4,7 @@ import io.hayk.demo.note.externalaccount.ExternalAccount;
 
 public interface UserService {
 
-    ExternalAccount bindExternalAccount(final BindExternalAccountParams request);
+    ExternalAccount bindExternalAccount(final BindExternalAccountParam request);
+
+    User getUserById(final Long id);
 }

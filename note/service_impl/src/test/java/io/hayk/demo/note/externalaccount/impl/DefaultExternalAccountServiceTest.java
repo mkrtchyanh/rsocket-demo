@@ -1,6 +1,8 @@
-package io.hayk.demo.note.externalaccount;
+package io.hayk.demo.note.externalaccount.impl;
 
 import io.hayk.demo.AbstractServiceUnitTest;
+import io.hayk.demo.note.externalaccount.ExternalAccountProvider;
+import io.hayk.demo.note.externalaccount.ExternalAccountService;
 import io.hayk.demo.note.externalaccount.repository.ExternalAccountProviderRepository;
 import org.easymock.Mock;
 import org.junit.Before;

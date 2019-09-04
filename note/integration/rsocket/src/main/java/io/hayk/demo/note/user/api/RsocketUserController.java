@@ -1,7 +1,7 @@
 package io.hayk.demo.note.user.api;
 
 import io.hayk.demo.common.SimpleApplicationError;
-import io.hayk.demo.note.user.BindExternalAccountParams;
+import io.hayk.demo.note.user.BindExternalAccountParam;
 import io.hayk.demo.note.user.BindExternalAccountRequest;
 import io.hayk.demo.note.user.BindExternalAccountResponse;
 import io.hayk.demo.note.user.UserService;
@@ -32,7 +32,7 @@ public class RsocketUserController {
         return Mono.fromCompletionStage(CompletableFuture.supplyAsync(() ->
                         userService.
                                 bindExternalAccount(
-                                        BindExternalAccountParams.of(request.getEmail(),
+                                        BindExternalAccountParam.of(request.getEmail(),
                                                 request.getExternalAccountUid(),
                                                 request.getProviderName())
                                 )

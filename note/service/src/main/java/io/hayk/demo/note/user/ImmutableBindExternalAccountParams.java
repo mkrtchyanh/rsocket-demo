@@ -3,7 +3,7 @@ package io.hayk.demo.note.user;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-final class ImmutableBindExternalAccountParams implements BindExternalAccountParams {
+final class ImmutableBindExternalAccountParams implements BindExternalAccountParam {
 
     private final String email;
 
@@ -25,7 +25,7 @@ final class ImmutableBindExternalAccountParams implements BindExternalAccountPar
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final BindExternalAccountParams that = (BindExternalAccountParams) o;
+        final BindExternalAccountParam that = (BindExternalAccountParam) o;
         return new EqualsBuilder()
                 .append(email, that.email())
                 .append(externalAccountUid, that.externalAccountUid())

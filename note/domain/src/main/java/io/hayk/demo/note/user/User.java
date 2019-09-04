@@ -6,10 +6,8 @@ import io.hayk.demo.note.externalaccount.ExternalAccount;
 import io.hayk.demo.note.externalaccount.ExternalAccountProvider;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Entity
 @Table(name = "note_user", uniqueConstraints = {
@@ -20,6 +18,9 @@ public class User extends AbstractDomainEntity {
 
     @Column(name = "email")
     private String email;
+
+    @Column(name = "last_updated")
+    private LocalDateTime lastUpdated;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
     private List<ExternalAccount> externalAccounts;
@@ -35,6 +36,7 @@ public class User extends AbstractDomainEntity {
 
     public User(final String email) {
         this.email = email;
+        this.lastUpdated = LocalDateTime.now();
     }
 
     /**
@@ -52,6 +54,7 @@ public class User extends AbstractDomainEntity {
     private ExternalAccount addExternalAccount(final String uid, final ExternalAccountProvider provider) {
         final ExternalAccount externalAccount = new ExternalAccount(uid, this, provider);
         initializedExternalAccounts().add(externalAccount);
+        lastUpdated = LocalDateTime.now();
         return externalAccount;
     }
 
@@ -78,5 +81,20 @@ public class User extends AbstractDomainEntity {
 
     public String getEmail() {
         return email;
+    }
+
+    public void changeEmail(final String newEmail) {
+        if (Objects.equals(email, newEmail)) {
+            lastUpdated = LocalDateTime.now();
+        }
+        this.email = newEmail;
+    }
+
+    public LocalDateTime getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(LocalDateTime lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 }

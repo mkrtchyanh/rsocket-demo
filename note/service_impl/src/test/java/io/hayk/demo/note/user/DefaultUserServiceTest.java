@@ -1,8 +1,11 @@
-package io.hayk.demo.note.user;
+package io.hayk.demo.note.user.impl;
 
 import io.hayk.demo.AbstractServiceUnitTest;
 import io.hayk.demo.note.externalaccount.ExternalAccountProvider;
 import io.hayk.demo.note.externalaccount.ExternalAccountService;
+import io.hayk.demo.note.user.BindExternalAccountParam;
+import io.hayk.demo.note.user.User;
+import io.hayk.demo.note.user.UserService;
 import io.hayk.demo.note.user.repository.UserRepository;
 import org.easymock.Mock;
 import org.junit.Before;
@@ -45,7 +48,7 @@ public class DefaultUserServiceTest extends AbstractServiceUnitTest {
 
     @Test
     public void testBindExternalAccountWhenProviderAndUserAreMissing() {
-        final BindExternalAccountParams params = validBindExternalAccountParams();
+        final BindExternalAccountParam params = validBindExternalAccountParams();
         expect(externalAccountService.lookupExternalAccountProvider(params.providerName()))
                 .andReturn(Optional.empty());
         expect(externalAccountService.registerExternalAccountProvider(params.providerName()))
@@ -62,7 +65,7 @@ public class DefaultUserServiceTest extends AbstractServiceUnitTest {
 
     @Test
     public void testBindExternalAccountWhenProviderAndUserArePresent() {
-        final BindExternalAccountParams params = validBindExternalAccountParams();
+        final BindExternalAccountParam params = validBindExternalAccountParams();
         expect(externalAccountService.lookupExternalAccountProvider(params.providerName()))
                 .andAnswer(() -> Optional.of(new ExternalAccountProvider(params.providerName())));
         expect(userRepository.findByEmail(params.email())).andAnswer(() -> Optional.of(new User(params.email())));
@@ -76,7 +79,7 @@ public class DefaultUserServiceTest extends AbstractServiceUnitTest {
 
     @Test
     public void testBindExternalAccountProviderIsPresentAndUserAreIsMissing() {
-        final BindExternalAccountParams params = validBindExternalAccountParams();
+        final BindExternalAccountParam params = validBindExternalAccountParams();
         expect(externalAccountService.lookupExternalAccountProvider(params.providerName()))
                 .andAnswer(() -> Optional.of(new ExternalAccountProvider(params.providerName())));
         expect(userRepository.findByEmail(params.email())).andReturn(Optional.empty());
@@ -91,7 +94,7 @@ public class DefaultUserServiceTest extends AbstractServiceUnitTest {
 
     @Test
     public void testBindExternalAccountWhenAlreadyBound() {
-        final BindExternalAccountParams params = validBindExternalAccountParams();
+        final BindExternalAccountParam params = validBindExternalAccountParams();
         final User user = new User(params.email());
         final ExternalAccountProvider provider = new ExternalAccountProvider(params.providerName());
         user.bindExternalAccount(params.externalAccountUid(), provider);
@@ -107,24 +110,24 @@ public class DefaultUserServiceTest extends AbstractServiceUnitTest {
         verifyAll();
     }
 
-    private static BindExternalAccountParams validBindExternalAccountParams() {
-        return BindExternalAccountParams.of(uuid(), uuid(), uuid());
+    private static BindExternalAccountParam validBindExternalAccountParams() {
+        return BindExternalAccountParam.of(uuid(), uuid(), uuid());
     }
 
-    private static BindExternalAccountParams withoutEmailBindExternalAccountParams() {
+    private static BindExternalAccountParam withoutEmailBindExternalAccountParams() {
         return new SimpleBindExternalAccountParams(null, uuid(), uuid());
     }
 
-    private static BindExternalAccountParams withoutExternalAccountUidBindExternalAccountParams() {
+    private static BindExternalAccountParam withoutExternalAccountUidBindExternalAccountParams() {
         return new SimpleBindExternalAccountParams(uuid(), null, uuid());
     }
 
-    private static BindExternalAccountParams withoutProviderNameBindExternalAccountParams() {
+    private static BindExternalAccountParam withoutProviderNameBindExternalAccountParams() {
         return new SimpleBindExternalAccountParams(uuid(), uuid(), null);
     }
 
 
-    private static final class SimpleBindExternalAccountParams implements BindExternalAccountParams {
+    private static final class SimpleBindExternalAccountParams implements BindExternalAccountParam {
 
         private final String email;
 

@@ -1,6 +1,6 @@
 package io.hayk.demo.note.user;
 
-public interface BindExternalAccountParams {
+public interface BindExternalAccountParam {
 
     String email();
 
@@ -8,7 +8,7 @@ public interface BindExternalAccountParams {
 
     String providerName();
 
-    static BindExternalAccountParams of(final String email,final String externalAccountUid,final String providerName){
+    static BindExternalAccountParam of(final String email, final String externalAccountUid, final String providerName){
         return new ImmutableBindExternalAccountParams(email,externalAccountUid,providerName);
     }
 }
