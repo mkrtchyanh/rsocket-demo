@@ -4,10 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.hayk.demo</groupId>
+    <groupId>io.hayk.rsocketdemo</groupId>
     <artifactId>note</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
     <modules>
         <module>domain</module>
         <module>service</module>
@@ -16,10 +17,11 @@
         <module>integration</module>
         <module>api-model</module>
     </modules>
+
     <properties>
-        <java.version>1.8</java.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <spring-tx.version>5.2.0.M2</spring-tx.version>
         <springboot.version>2.2.0.M5</springboot.version>
         <easymock.version>4.0.2</easymock.version>
@@ -94,7 +96,6 @@
             <version>${vavr.version}</version>
         </dependency>
 
-
     </dependencies>
 
 
@@ -105,6 +106,7 @@
             <url>https://repo.spring.io/milestone</url>
         </repository>
     </repositories>
+
     <pluginRepositories>
         <pluginRepository>
             <id>spring-milestones</id>

@@ -4,19 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.hayk.demo</groupId>
+    <groupId>io.hayk.rsocketdemo</groupId>
     <artifactId>web</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <java.version>1.8</java.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <vavr.version>0.10.2</vavr.version>
         <commons-lang3.version>3.9</commons-lang3.version>
+        <note-api-model.version>1.0-SNAPSHOT</note-api-model.version>
         <hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
-        <swagger.version>3.0.0-SNAPSHOmvn dockerT</swagger.version>
+        <swagger.version>3.0.0-SNAPSHOT</swagger.version>
         <dockerfile.maven.plugin.version>1.4.10</dockerfile.maven.plugin.version>
+        <spring.boot.plugin.version>2.1.6.RELEASE</spring.boot.plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -55,9 +57,9 @@
         </dependency>
 
         <dependency>
-            <groupId>io.hayk.demo</groupId>
-            <artifactId>api-model</artifactId>
-            <version>${project.version}</version>
+            <groupId>io.hayk.rsocketdemo</groupId>
+            <artifactId>note-api-model</artifactId>
+            <version>${note-api-model.version}</version>
         </dependency>
 
         <dependency>
@@ -116,6 +118,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -160,6 +163,7 @@
             <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
         </repository>
     </repositories>
+
     <pluginRepositories>
         <pluginRepository>
             <id>spring-milestones</id>
@@ -167,4 +171,5 @@
             <url>https://repo.spring.io/milestone</url>
         </pluginRepository>
     </pluginRepositories>
+
 </project>
