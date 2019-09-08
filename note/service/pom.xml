@@ -10,12 +10,12 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service</artifactId>
+    <artifactId>note-service</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>io.hayk.rsocketdemo</groupId>
-            <artifactId>domain</artifactId>
+            <artifactId>note-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

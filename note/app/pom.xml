@@ -20,12 +20,12 @@
     <dependencies>
         <dependency>
             <groupId>io.hayk.rsocketdemo</groupId>
-            <artifactId>integration-rsocket</artifactId>
+            <artifactId>note-integration-rsocket</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>io.hayk.rsocketdemo</groupId>
-            <artifactId>service_impl</artifactId>
+            <artifactId>note-service_impl</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -69,7 +69,7 @@
             </executions>
             <configuration>
                 <tag>snapshot</tag>
-                <repository>haykm/demo-notes-api</repository>
+                <repository>haykm/rsocketdemo-notes-api</repository>
                 <buildArgs>
                     <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
                 </buildArgs>

@@ -1,0 +1,50 @@
+version: '3'
+services:
+  web-gateway:
+    image:  haykm/rsocketdemo-web-gateway:snapshot
+    ports:
+      - "8080:8080"
+    links: 
+      - user-ms
+      - note-ms
+    environment:
+      - USER_API_RSOCKET_HOST=user-ms
+      - NOTE_API_RSOCKET_HOST=note-ms
+      - JAVA_TOOL_OPTIONS=-Xmx128m
+  note-ms:
+    image:  haykm/rsocketdemo-notes-api:snapshot
+    restart: always
+    ports:
+      - "8081:8081"
+      - "7000:7000"
+    depends_on:
+      - db
+    links: 
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/note
+      - JAVA_TOOL_OPTIONS=-Xmx256m
+  user-ms:
+    image: haykm/rsocketdemo-user-api:snapshot
+    restart: always
+    ports:
+      - "8082:8082"
+      - "7002:7002"
+    depends_on:
+      - db
+    links: 
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/users
+      - JAVA_TOOL_OPTIONS=-Xmx256m
+  db:
+    image: postgres:11.5
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
+      

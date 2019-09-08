@@ -11,7 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service_impl</artifactId>
+    <artifactId>note-service_impl</artifactId>
 
     <build>
         <plugins>
@@ -29,7 +29,7 @@
     <dependencies>
         <dependency>
             <groupId>io.hayk.rsocketdemo</groupId>
-            <artifactId>service</artifactId>
+            <artifactId>note-service</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

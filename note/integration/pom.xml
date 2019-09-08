@@ -10,7 +10,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>integration</artifactId>
+    <artifactId>note-integration</artifactId>
     <packaging>pom</packaging>
 
     <modules>

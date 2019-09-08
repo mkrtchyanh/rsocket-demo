@@ -15,6 +15,7 @@
         <vavr.version>0.10.2</vavr.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <note-api-model.version>1.0-SNAPSHOT</note-api-model.version>
+        <user-api-model.version>1.0-SNAPSHOT</user-api-model.version>
         <hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
         <swagger.version>3.0.0-SNAPSHOT</swagger.version>
         <dockerfile.maven.plugin.version>1.4.10</dockerfile.maven.plugin.version>
@@ -60,6 +61,12 @@
             <groupId>io.hayk.rsocketdemo</groupId>
             <artifactId>note-api-model</artifactId>
             <version>${note-api-model.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.hayk.rsocketdemo</groupId>
+            <artifactId>user-api-model</artifactId>
+            <version>${user-api-model.version}</version>
         </dependency>
 
         <dependency>
@@ -141,7 +148,7 @@
                 </executions>
                 <configuration>
                     <tag>snapshot</tag>
-                    <repository>haykm/demo-web-gateway</repository>
+                    <repository>haykm/rsocketdemo-web-gateway</repository>
                     <buildArgs>
                         <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
