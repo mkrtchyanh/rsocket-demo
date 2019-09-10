@@ -25,7 +25,7 @@ class DefaultNoteContentService implements NoteContentService {
     @Transactional
     public UserNote createNoteContent(final CreateNoteContentParam param) {
         assertValidCreateNoteContentParam(param);
-        return UserNote.of(noteContentRepository.save(new NoteContent(param.userId(), param.title(), param.text())));
+        return ImmutableUserNote.of(noteContentRepository.save(new NoteContent(param.userId(), param.title(), param.text())));
     }
 
     @Override
@@ -42,7 +42,7 @@ class DefaultNoteContentService implements NoteContentService {
         }
         content.changeText(param.text());
         content.changeTitle(param.title());
-        return UserNote.of(noteContentRepository.save(content));
+        return ImmutableUserNote.of(noteContentRepository.save(content));
     }
 
     @Override
@@ -50,7 +50,7 @@ class DefaultNoteContentService implements NoteContentService {
     public Optional<UserNote> getUserNote(final Long id) {
         Assert.notNull(id, "Null was provided as ana argument for parameter 'id'.");
         return noteContentRepository.findById(id)
-                .map(UserNote::of);
+                .map(ImmutableUserNote::of);
     }
 
     @Override
@@ -58,7 +58,7 @@ class DefaultNoteContentService implements NoteContentService {
     public List<UserNote> getUserNotes(final Long userId) {
         Assert.notNull(userId, "Null was provided as ana argument for parameter 'userId'.");
         return noteContentRepository.findByUserId(userId).stream()
-                .map(UserNote::of)
+                .map(ImmutableUserNote::of)
                 .collect(Collectors.toList());
     }
 

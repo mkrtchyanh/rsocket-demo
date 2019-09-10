@@ -15,8 +15,4 @@ public interface UserNote {
     LocalDateTime created();
 
     LocalDateTime updated();
-
-    static UserNote of(final NoteContent noteContent){
-        return new ImmutableUserNote(noteContent);
-    }
 }
