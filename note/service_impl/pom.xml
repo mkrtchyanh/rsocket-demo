@@ -27,6 +27,13 @@
     </build>
 
     <dependencies>
+
+        <dependency>
+            <groupId>io.hayk.rsocketdemo</groupId>
+            <artifactId>note-domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>io.hayk.rsocketdemo</groupId>
             <artifactId>note-service</artifactId>

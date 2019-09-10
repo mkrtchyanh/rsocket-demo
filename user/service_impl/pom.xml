@@ -29,6 +29,11 @@
     <dependencies>
         <dependency>
             <groupId>io.hayk.rsocketdemo</groupId>
+            <artifactId>user-domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.hayk.rsocketdemo</groupId>
             <artifactId>user-service</artifactId>
             <version>${project.version}</version>
         </dependency>

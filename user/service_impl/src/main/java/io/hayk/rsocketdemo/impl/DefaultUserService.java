@@ -1,7 +1,7 @@
 package io.hayk.rsocketdemo.impl;
 
+import io.hayk.rsocketdemo.BindExternalAccountResult;
 import io.hayk.rsocketdemo.User;
-import io.hayk.rsocketdemo.security.auth.external.ExternalAccountService;
 import io.hayk.rsocketdemo.security.auth.external.ExternalAccount;
 import io.hayk.rsocketdemo.security.auth.external.ExternalAccountProvider;
 import io.hayk.rsocketdemo.BindExternalAccountParam;
@@ -33,28 +33,23 @@ class DefaultUserService implements UserService {
     }
 
     @Transactional
-    public ExternalAccount bindExternalAccount(final BindExternalAccountParam params) {
+    public BindExternalAccountResult bindExternalAccount(final BindExternalAccountParam params) {
         assertValidBindExternalAccountParams(params);
         final ExternalAccountProvider provider = externalAccountService.lookupExternalAccountProvider(params.providerName())
                 .orElseGet(() -> externalAccountService.registerExternalAccountProvider(params.providerName()));
         final User user = userRepository.findByEmail(params.email())
                 .orElseGet(() -> userRepository.save(new User(params.email())));
-        return user.bindExternalAccount(params.externalAccountUid(), provider);
+        final ExternalAccount externalAccount = user.bindExternalAccount(params.externalAccountUid(), provider);
+        return BindExternalAccountResult.of(externalAccount.getOwner().getId());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public User getUserById(final Long id) {
-        Assert.notNull(id, "Null was passed as ana argument for parameter 'id'.");
-        return userRepository.getOne(id);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<User> findUserBoundToExternalAccount(final String externalAccountUid, final String providerName) {
+    public Optional<Long> findUserIdBoundToExternalAccount(final String externalAccountUid, final String providerName) {
         Assert.hasText(externalAccountUid, "Null or empty text was passed as ana argument for parameter 'externalAccountUid'.");
         Assert.hasText(providerName, "Null or empty text was passed as ana argument for parameter 'providerName'.");
         return externalAccountService.getExternalAccountByUidAndProviderName(externalAccountUid, providerName)
-                .map(ExternalAccount::getOwner);
+                .map(ExternalAccount::getOwner)
+                .map(User::getId);
     }
 }

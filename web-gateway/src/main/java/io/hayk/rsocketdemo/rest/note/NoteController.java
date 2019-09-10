@@ -1,16 +1,17 @@
 package io.hayk.rsocketdemo.rest.note;
 
 
-import io.hayk.rsocketdemo.*;
+import io.hayk.rsocketdemo.api.model.*;
 import io.hayk.rsocketdemo.client.note.NoteApiClient;
 import io.hayk.rsocketdemo.client.user.UserApiClient;
-import io.hayk.rsocketdemo.rest.note.model.UpdateNoteWebRequest;
-import io.hayk.rsocketdemo.security.auth.external.ExternalAccountDetailsResolverProvider;
-import io.hayk.rsocketdemo.security.auth.external.ExternalAccountDetails;
 import io.hayk.rsocketdemo.rest.common.BaseController;
 import io.hayk.rsocketdemo.rest.common.ValidationFailedException;
 import io.hayk.rsocketdemo.rest.note.model.CreateNoteWebRequest;
+import io.hayk.rsocketdemo.rest.note.model.UpdateNoteWebRequest;
+import io.hayk.rsocketdemo.security.auth.external.ExternalAccountDetails;
+import io.hayk.rsocketdemo.security.auth.external.ExternalAccountDetailsResolverProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.validation.Validator;
@@ -58,7 +59,7 @@ public class NoteController extends BaseController {
     }
 
     @PutMapping("/")
-    public Mono<GenericNoteResult> update(@RequestBody final Mono<UpdateNoteWebRequest> updateNoteRequest, final Mono<Principal> principal) {
+    public Mono<ResponseEntity<GenericNoteResult>> update(@RequestBody final Mono<UpdateNoteWebRequest> updateNoteRequest, final Mono<Principal> principal) {
         return userId(principal)
                 .flatMap(userId ->
                         updateNoteRequest
@@ -67,7 +68,8 @@ public class NoteController extends BaseController {
                 )
                 .onErrorResume(ValidationFailedException.class,
                         this::resumeValidationFailed
-                );
+                ).map(ResponseEntity.ok()::body)
+                .switchIfEmpty(Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()));
     }
 
     private Mono<GenericNoteResult> resumeValidationFailed(ValidationFailedException ex) {

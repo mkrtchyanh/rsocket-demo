@@ -1,6 +1,6 @@
 package io.hayk.rsocketdemo.client.note;
 
-import io.hayk.rsocketdemo.*;
+import io.hayk.rsocketdemo.api.model.*;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import reactor.core.publisher.Mono;
 

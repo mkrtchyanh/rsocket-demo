@@ -1,11 +1,11 @@
 package io.hayk.rsocketdemo.rest.user;
 
+import io.hayk.rsocketdemo.api.model.BindExternalAccountResult;
 import io.hayk.rsocketdemo.client.user.UserApiClient;
 import io.hayk.rsocketdemo.security.auth.external.ExternalAccountDetailsResolverProvider;
 import io.hayk.rsocketdemo.security.auth.external.ExternalAccountDetails;
 import io.hayk.rsocketdemo.rest.common.BaseController;
-import io.hayk.rsocketdemo.BindExternalAccountRequest;
-import io.hayk.rsocketdemo.BindExternalAccountResult;
+import io.hayk.rsocketdemo.api.model.BindExternalAccountRequest;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.validation.Validator;

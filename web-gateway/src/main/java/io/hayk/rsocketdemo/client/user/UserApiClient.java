@@ -1,9 +1,9 @@
 package io.hayk.rsocketdemo.client.user;
 
-import io.hayk.rsocketdemo.BindExternalAccountRequest;
-import io.hayk.rsocketdemo.BindExternalAccountResult;
-import io.hayk.rsocketdemo.GetUserIdByExternalAccountRequest;
-import io.hayk.rsocketdemo.GetUserIdByExternalAccountUidResult;
+import io.hayk.rsocketdemo.api.model.BindExternalAccountRequest;
+import io.hayk.rsocketdemo.api.model.BindExternalAccountResult;
+import io.hayk.rsocketdemo.api.model.GetUserIdByExternalAccountRequest;
+import io.hayk.rsocketdemo.api.model.GetUserIdByExternalAccountUidResult;
 import reactor.core.publisher.Mono;
 
 public interface UserApiClient {

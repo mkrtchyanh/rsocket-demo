@@ -1,14 +1,11 @@
 package io.hayk.rsocketdemo;
 
-import io.hayk.rsocketdemo.security.auth.external.ExternalAccount;
 
 import java.util.Optional;
 
 public interface UserService {
 
-    ExternalAccount bindExternalAccount(final BindExternalAccountParam request);
+    BindExternalAccountResult bindExternalAccount(final BindExternalAccountParam bindExternalAccountParam);
 
-    User getUserById(final Long id);
-
-    Optional<User> findUserBoundToExternalAccount(final String externalAccountUid, final String providerName);
+    Optional<Long> findUserIdBoundToExternalAccount(final String externalAccountUid, final String providerName);
 }

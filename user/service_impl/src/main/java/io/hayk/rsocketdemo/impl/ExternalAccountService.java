@@ -1,4 +1,7 @@
-package io.hayk.rsocketdemo.security.auth.external;
+package io.hayk.rsocketdemo.impl;
+
+import io.hayk.rsocketdemo.security.auth.external.ExternalAccount;
+import io.hayk.rsocketdemo.security.auth.external.ExternalAccountProvider;
 
 import java.util.Optional;
 

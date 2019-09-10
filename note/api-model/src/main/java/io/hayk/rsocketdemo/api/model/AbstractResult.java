@@ -1,4 +1,4 @@
-package io.hayk.rsocketdemo;
+package io.hayk.rsocketdemo.api.model;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

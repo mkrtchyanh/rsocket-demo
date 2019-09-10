@@ -1,4 +1,4 @@
-package io.hayk.rsocketdemo;
+package io.hayk.rsocketdemo.api.model;
 
 import java.util.List;
 

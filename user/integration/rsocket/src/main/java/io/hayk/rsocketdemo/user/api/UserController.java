@@ -2,6 +2,9 @@ package io.hayk.rsocketdemo.user.api;
 
 
 import io.hayk.rsocketdemo.*;
+import io.hayk.rsocketdemo.api.model.BindExternalAccountRequest;
+import io.hayk.rsocketdemo.api.model.GetUserIdByExternalAccountRequest;
+import io.hayk.rsocketdemo.api.model.GetUserIdByExternalAccountUidResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,7 +32,7 @@ public class UserController {
     }
 
     @MessageMapping("user:bind-external-account")
-    Mono<BindExternalAccountResult> bindExternalAccount(final BindExternalAccountRequest request) {
+    Mono<io.hayk.rsocketdemo.api.model.BindExternalAccountResult> bindExternalAccount(final BindExternalAccountRequest request) {
         return Mono.fromCompletionStage(CompletableFuture.supplyAsync(() ->
                         userService.
                                 bindExternalAccount(
@@ -38,15 +41,15 @@ public class UserController {
                                                 request.getProviderName())
                                 )
                 , executor)
-                .whenComplete((account, th) -> {
+                .whenComplete((result, th) -> {
                     if (th != null) {
                         logger.error("Failed to create note!", th);
                     } else {
                         logger.debug("The external account with uid - {} was successfully bound to user with id {}.",
-                                account.getUid(), account.getOwner().getId());
+                                request.getExternalAccountUid(), result.userId());
                     }
                 })
-                .thenApply(externalAccount -> new BindExternalAccountResult(externalAccount.getOwner().getId()))
+                .thenApply(result -> new io.hayk.rsocketdemo.api.model.BindExternalAccountResult(result.userId()))
         );
     }
 
@@ -54,12 +57,11 @@ public class UserController {
     Mono<GetUserIdByExternalAccountUidResult> getUserIdByExternalAccountUid(final GetUserIdByExternalAccountRequest request) {
         return Mono.fromCompletionStage(CompletableFuture.supplyAsync(() ->
                         userService.
-                                findUserBoundToExternalAccount(
+                                findUserIdBoundToExternalAccount(
                                         request.getExternalAccountUid(),
                                         request.getProviderName()
                                 )
                 , executor)
-                .thenApply(userHolder -> userHolder.map(User::getId))
         )
                 .filter(Optional::isPresent)
                 .map(Optional::get)

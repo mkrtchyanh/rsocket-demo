@@ -1,6 +1,7 @@
 package io.hayk.rsocketdemo.note.api;
 
 import io.hayk.rsocketdemo.*;
+import io.hayk.rsocketdemo.api.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;

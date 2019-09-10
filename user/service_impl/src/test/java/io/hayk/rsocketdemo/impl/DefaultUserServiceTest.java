@@ -1,15 +1,15 @@
 package io.hayk.rsocketdemo.impl;
 
 import io.hayk.rsocketdemo.AbstractServiceUnitTest;
-import io.hayk.rsocketdemo.User;
-import io.hayk.rsocketdemo.security.auth.external.ExternalAccountProvider;
-import io.hayk.rsocketdemo.security.auth.external.ExternalAccountService;
-import io.hayk.rsocketdemo.repository.UserRepository;
 import io.hayk.rsocketdemo.BindExternalAccountParam;
+import io.hayk.rsocketdemo.User;
 import io.hayk.rsocketdemo.UserService;
+import io.hayk.rsocketdemo.repository.UserRepository;
+import io.hayk.rsocketdemo.security.auth.external.ExternalAccountProvider;
 import org.easymock.Mock;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
@@ -65,53 +65,65 @@ public class DefaultUserServiceTest extends AbstractServiceUnitTest {
     @Test
     public void testBindExternalAccountWhenProviderAndUserAreMissing() {
         final BindExternalAccountParam params = validBindExternalAccountParams();
+        final Long userId = 1L;
         expect(externalAccountService.lookupExternalAccountProvider(params.providerName()))
                 .andReturn(Optional.empty());
         expect(externalAccountService.registerExternalAccountProvider(params.providerName()))
                 .andAnswer(() -> new ExternalAccountProvider(params.providerName()));
         expect(userRepository.findByEmail(params.email())).andReturn(Optional.empty());
-        expect(userRepository.save(isA(User.class))).andAnswer(() -> (User) getCurrentArguments()[0]);
+        expect(userRepository.save(isA(User.class))).andAnswer(() -> {
+            final User user = (User) getCurrentArguments()[0];
+            ReflectionTestUtils.setField(user, "id", userId);
+            return user;
+        });
         replayAll();
-        assertThat(userService.bindExternalAccount(params))
-                .hasFieldOrPropertyWithValue("uid", params.externalAccountUid())
-                .hasFieldOrPropertyWithValue("provider.name", params.providerName())
-                .hasFieldOrPropertyWithValue("owner.email", params.email());
+        assertThat(userService.bindExternalAccount(params).userId())
+                .isEqualTo(userId);
         verifyAll();
     }
 
     @Test
     public void testBindExternalAccountWhenProviderAndUserArePresent() {
         final BindExternalAccountParam params = validBindExternalAccountParams();
+        final Long userId = 1L;
         expect(externalAccountService.lookupExternalAccountProvider(params.providerName()))
                 .andAnswer(() -> Optional.of(new ExternalAccountProvider(params.providerName())));
-        expect(userRepository.findByEmail(params.email())).andAnswer(() -> Optional.of(new User(params.email())));
+        expect(userRepository.findByEmail(params.email())).andAnswer(() -> {
+            final User user = new User(params.email());
+            ReflectionTestUtils.setField(user, "id", userId);
+            return Optional.of(user);
+        });
         replayAll();
-        assertThat(userService.bindExternalAccount(params))
-                .hasFieldOrPropertyWithValue("uid", params.externalAccountUid())
-                .hasFieldOrPropertyWithValue("provider.name", params.providerName())
-                .hasFieldOrPropertyWithValue("owner.email", params.email());
+        assertThat(userService.bindExternalAccount(params).userId())
+                .isEqualTo(userId);
         verifyAll();
     }
 
     @Test
     public void testBindExternalAccountProviderIsPresentAndUserAreIsMissing() {
         final BindExternalAccountParam params = validBindExternalAccountParams();
+        final Long userId = 1L;
         expect(externalAccountService.lookupExternalAccountProvider(params.providerName()))
                 .andAnswer(() -> Optional.of(new ExternalAccountProvider(params.providerName())));
         expect(userRepository.findByEmail(params.email())).andReturn(Optional.empty());
-        expect(userRepository.save(isA(User.class))).andAnswer(() -> (User) getCurrentArguments()[0]);
+        expect(userRepository.save(isA(User.class))).andAnswer(
+                () -> {
+                    final User user = (User) getCurrentArguments()[0];
+                    ReflectionTestUtils.setField(user, "id", userId);
+                    return user;
+                });
         replayAll();
-        assertThat(userService.bindExternalAccount(params))
-                .hasFieldOrPropertyWithValue("uid", params.externalAccountUid())
-                .hasFieldOrPropertyWithValue("provider.name", params.providerName())
-                .hasFieldOrPropertyWithValue("owner.email", params.email());
+        assertThat(userService.bindExternalAccount(params).userId())
+                .isEqualTo(userId);
         verifyAll();
     }
 
     @Test
     public void testBindExternalAccountWhenAlreadyBound() {
         final BindExternalAccountParam params = validBindExternalAccountParams();
+        final Long userId = 1L;
         final User user = new User(params.email());
+        ReflectionTestUtils.setField(user, "id", userId);
         final ExternalAccountProvider provider = new ExternalAccountProvider(params.providerName());
         user.bindExternalAccount(params.externalAccountUid(), provider);
         expect(externalAccountService.lookupExternalAccountProvider(params.providerName()))
@@ -119,10 +131,8 @@ public class DefaultUserServiceTest extends AbstractServiceUnitTest {
         expect(userRepository.findByEmail(params.email()))
                 .andReturn(Optional.of(user));
         replayAll();
-        assertThat(userService.bindExternalAccount(params))
-                .hasFieldOrPropertyWithValue("uid", params.externalAccountUid())
-                .hasFieldOrPropertyWithValue("provider.name", params.providerName())
-                .hasFieldOrPropertyWithValue("owner.email", params.email());
+        assertThat(userService.bindExternalAccount(params).userId())
+                .isEqualTo(userId);
         verifyAll();
     }
 

@@ -2,7 +2,7 @@ package io.hayk.rsocketdemo.security.auth.external.impl;
 
 import io.hayk.rsocketdemo.AbstractServiceUnitTest;
 import io.hayk.rsocketdemo.security.auth.external.ExternalAccountProvider;
-import io.hayk.rsocketdemo.security.auth.external.ExternalAccountService;
+import io.hayk.rsocketdemo.impl.ExternalAccountService;
 import io.hayk.rsocketdemo.security.auth.external.repository.ExternalAccountProviderRepository;
 import io.hayk.rsocketdemo.security.auth.external.repository.ExternalAccountRepository;
 import org.easymock.Mock;
