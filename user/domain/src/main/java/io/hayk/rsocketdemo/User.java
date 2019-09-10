@@ -2,8 +2,8 @@ package io.hayk.rsocketdemo;
 
 
 import io.hayk.rsocketdemo.common.AbstractDomainEntity;
-import io.hayk.rsocketdemo.externalaccount.ExternalAccount;
-import io.hayk.rsocketdemo.externalaccount.ExternalAccountProvider;
+import io.hayk.rsocketdemo.security.auth.external.ExternalAccount;
+import io.hayk.rsocketdemo.security.auth.external.ExternalAccountProvider;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

@@ -1,9 +1,9 @@
 package io.hayk.rsocketdemo.impl;
 
 import io.hayk.rsocketdemo.User;
-import io.hayk.rsocketdemo.externalaccount.ExternalAccountService;
-import io.hayk.rsocketdemo.externalaccount.ExternalAccount;
-import io.hayk.rsocketdemo.externalaccount.ExternalAccountProvider;
+import io.hayk.rsocketdemo.security.auth.external.ExternalAccountService;
+import io.hayk.rsocketdemo.security.auth.external.ExternalAccount;
+import io.hayk.rsocketdemo.security.auth.external.ExternalAccountProvider;
 import io.hayk.rsocketdemo.BindExternalAccountParam;
 import io.hayk.rsocketdemo.UserService;
 import io.hayk.rsocketdemo.repository.UserRepository;
