@@ -1,7 +1,10 @@
 package io.hayk.rsocketdemo.note.api;
 
-import io.hayk.rsocketdemo.*;
 import io.hayk.rsocketdemo.api.model.*;
+import io.hayk.rsocketdemo.note.CreateNoteContentParam;
+import io.hayk.rsocketdemo.note.NoteContentService;
+import io.hayk.rsocketdemo.note.UpdateNoteContentParam;
+import io.hayk.rsocketdemo.note.UserNote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;

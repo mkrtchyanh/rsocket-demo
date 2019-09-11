@@ -1,10 +1,11 @@
 package io.hayk.rsocketdemo.user.api;
 
 
-import io.hayk.rsocketdemo.*;
 import io.hayk.rsocketdemo.api.model.BindExternalAccountRequest;
 import io.hayk.rsocketdemo.api.model.GetUserIdByExternalAccountRequest;
 import io.hayk.rsocketdemo.api.model.GetUserIdByExternalAccountUidResult;
+import io.hayk.rsocketdemo.user.BindExternalAccountParam;
+import io.hayk.rsocketdemo.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
