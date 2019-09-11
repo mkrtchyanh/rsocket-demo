@@ -1,9 +1,9 @@
 package io.hayk.rsocketdemo.note.api;
 
 import io.hayk.rsocketdemo.api.model.*;
-import io.hayk.rsocketdemo.note.CreateNoteContentParam;
-import io.hayk.rsocketdemo.note.NoteContentService;
-import io.hayk.rsocketdemo.note.UpdateNoteContentParam;
+import io.hayk.rsocketdemo.note.CreateUserNoteParam;
+import io.hayk.rsocketdemo.note.UserNoteService;
+import io.hayk.rsocketdemo.note.UpdateUserNoteParam;
 import io.hayk.rsocketdemo.note.UserNote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,14 +24,14 @@ public class NoteController {
 
     private Logger logger = LoggerFactory.getLogger(NoteController.class);
 
-    private final NoteContentService noteContentService;
+    private final UserNoteService userNoteService;
 
     private final Executor executor;
 
 
-    public NoteController(final NoteContentService noteContentService,
+    public NoteController(final UserNoteService userNoteService,
                           @Qualifier("dbCallBoundExecutor") final Executor executor) {
-        this.noteContentService = noteContentService;
+        this.userNoteService = userNoteService;
         this.executor = executor;
     }
 
@@ -49,9 +49,9 @@ public class NoteController {
     public Mono<GenericNoteResult> create(final CreateNoteRequest request) {
         return Mono.fromCompletionStage(
                 CompletableFuture.supplyAsync(() ->
-                                noteContentService.
-                                        createNoteContent(
-                                                CreateNoteContentParam.of(request.getUserId(),
+                                userNoteService.
+                                        createUserNote(
+                                                CreateUserNoteParam.of(request.getUserId(),
                                                         request.getTitle(),
                                                         request.getText())
                                         )
@@ -84,9 +84,9 @@ public class NoteController {
 
     private CompletableFuture<UserNote> updateNoteContent(UpdateNoteRequest request) {
         return CompletableFuture.supplyAsync(() ->
-                        noteContentService.
-                                updateNoteContent(
-                                        UpdateNoteContentParam.of(
+                        userNoteService.
+                                updateUserNote(
+                                        UpdateUserNoteParam.of(
                                                 request.getUserId(),
                                                 request.getNoteId(),
                                                 request.getTitle(),
@@ -114,7 +114,7 @@ public class NoteController {
 
     private CompletableFuture<Optional<UserNote>> findNote(GetNoteRequest request) {
         return CompletableFuture.supplyAsync(() ->
-                        noteContentService.
+                        userNoteService.
                                 getUserNote(request.getNoteId())
                 , executor);
     }
@@ -142,7 +142,7 @@ public class NoteController {
 
     private CompletableFuture<List<UserNote>> getUserNotes(GetUserNotesRequest request) {
         return CompletableFuture.supplyAsync(() ->
-                        noteContentService.
+                        userNoteService.
                                 getUserNotes(request.getUserId())
                 , executor);
     }

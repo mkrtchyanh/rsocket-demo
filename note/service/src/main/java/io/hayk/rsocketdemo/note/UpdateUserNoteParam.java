@@ -1,14 +1,20 @@
 package io.hayk.rsocketdemo.note;
 
-public interface CreateNoteContentParam extends BaseSaveNoteContentParam{
+public interface UpdateUserNoteParam extends BaseSaveNoteContentParam{
 
-    static CreateNoteContentParam of(final Long userId,
-                                     final String text,
-                                     final String title) {
-        return new CreateNoteContentParam() {
+    Long noteId();
+
+    static UpdateUserNoteParam of(final Long userId, final Long noteId, final String title, final String text) {
+        return new UpdateUserNoteParam() {
+
             @Override
             public Long userId() {
                 return userId;
+            }
+
+            @Override
+            public Long noteId() {
+                return noteId;
             }
 
             @Override
@@ -20,6 +26,7 @@ public interface CreateNoteContentParam extends BaseSaveNoteContentParam{
             public String title() {
                 return title;
             }
+
         };
     }
 }

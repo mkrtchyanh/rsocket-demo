@@ -14,24 +14,24 @@ import java.util.stream.Collectors;
 import static java.lang.String.format;
 
 @Service
-class DefaultNoteContentService implements NoteContentService {
+class DefaultUserNoteService implements UserNoteService {
 
     private final NoteContentRepository noteContentRepository;
 
-    DefaultNoteContentService(final NoteContentRepository noteContentRepository) {
+    DefaultUserNoteService(final NoteContentRepository noteContentRepository) {
         this.noteContentRepository = noteContentRepository;
     }
 
     @Override
     @Transactional
-    public UserNote createNoteContent(final CreateNoteContentParam param) {
+    public UserNote createUserNote(final CreateUserNoteParam param) {
         assertValidCreateNoteContentParam(param);
         return ImmutableUserNote.of(noteContentRepository.save(new NoteContent(param.userId(), param.title(), param.text())));
     }
 
     @Override
     @Transactional
-    public UserNote updateNoteContent(final UpdateNoteContentParam param) {
+    public UserNote updateUserNote(final UpdateUserNoteParam param) {
         assertValidUpdateNoteContentParam(param);
         final NoteContent content = noteContentRepository.getOne(param.noteId());
         if (!param.userId().equals(content.getUserId())) {
@@ -63,11 +63,11 @@ class DefaultNoteContentService implements NoteContentService {
                 .collect(Collectors.toList());
     }
 
-    private static void assertValidCreateNoteContentParam(final CreateNoteContentParam param) {
+    private static void assertValidCreateNoteContentParam(final CreateUserNoteParam param) {
         assertValidBaseBaseSaveNoteContentParam(param);
     }
 
-    private static void assertValidUpdateNoteContentParam(final UpdateNoteContentParam param) {
+    private static void assertValidUpdateNoteContentParam(final UpdateUserNoteParam param) {
         assertValidBaseBaseSaveNoteContentParam(param);
         Assert.notNull(param.noteId(), "Null was provided as ana argument for parameter 'param.noteId'.");
     }

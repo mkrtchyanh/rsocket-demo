@@ -3,11 +3,11 @@ package io.hayk.rsocketdemo.note;
 import java.util.List;
 import java.util.Optional;
 
-public interface NoteContentService {
+public interface UserNoteService {
 
-    UserNote createNoteContent(final CreateNoteContentParam param);
+    UserNote createUserNote(final CreateUserNoteParam param);
 
-    UserNote updateNoteContent(final UpdateNoteContentParam param);
+    UserNote updateUserNote(final UpdateUserNoteParam param);
 
     Optional<UserNote> getUserNote(final Long id);
 
