@@ -13,7 +13,7 @@
     <artifactId>app</artifactId>
 
     <properties>
-        <postgresql.version>42.2.5</postgresql.version>
+        <postgresql.version>42.3.3</postgresql.version>
         <dockerfile.maven.plugin.version>1.4.10</dockerfile.maven.plugin.version>
     </properties>
 
