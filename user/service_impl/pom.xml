@@ -11,7 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>user-service_impl</artifactId>
+    <artifactId>service_impl</artifactId>
 
     <build>
         <plugins>
